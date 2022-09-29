@@ -6,6 +6,7 @@ import foodList from './menu.json';
 const data = foodList[0];
 
 function FoodCard(props) {
+  console.log(props)
   return (
     <div style={{ width: "480px" }}>
       <img src={data.image} alt={data.name} width="480px" />
@@ -21,6 +22,7 @@ function FoodCard(props) {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<FoodCard />);
+
 
 
 
