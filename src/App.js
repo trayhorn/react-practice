@@ -1,6 +1,8 @@
 import { Component } from 'react';
+import * as React from 'react';
+import Button from '@mui/material/Button';
 import ModalWindow from "./components/Modal/Modal";
-import Form from './components/Form/Form';
+import TodoForm from './components/Form/Form';
 import List from './components/List/List';
 import initialTodos from './initialTodos.json';
 import './App.css';
@@ -20,6 +22,10 @@ export default class App extends Component {
     })
   }
 
+  addTodo = () => {
+
+  }
+
   deleteTodo = todoId => {
     this.setState(({todos}) => ({
       todos: todos.filter(todo =>
@@ -32,23 +38,25 @@ export default class App extends Component {
   render() {
     return (
       <div className='container'>
-        <Form />
+        {this.state.showModal && (
+          <ModalWindow onClose={this.toggleModal}>
+            <h1>This is my first modal in React</h1>
+            <Button
+              variant="contained"
+              onClick={this.toggleModal}
+            >Close Modal</Button>
+          </ModalWindow>
+        )}
+        <TodoForm />
         <List
           onDeleteTodo={this.deleteTodo}
           initialTodos={this.state.todos}
         />
-        <button
+        <Button
+          variant="contained"
           style={{margin: '20px'}}
           onClick={this.toggleModal}
-        >Open modal</button>
-        {this.state.showModal && (
-          <ModalWindow>
-            <h1>This is my first modal in React</h1>
-            <button
-              onClick={this.toggleModal}
-            >Close Modal</button>
-          </ModalWindow>
-        )}
+        >Open modal</Button>
       </div>
     )
   }

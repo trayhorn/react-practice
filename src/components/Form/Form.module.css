@@ -3,5 +3,13 @@
 }
 
 .input {
+  padding: 7px 10px;
   margin-left: 10px;
+  font-size: 16px;
+  outline: none;
+  border: 2px #1976d2 solid;
+  border-radius: 5px;
+}
+.input:focus {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

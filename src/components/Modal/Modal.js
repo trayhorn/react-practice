@@ -1,14 +1,22 @@
 import { Component } from 'react';
+import { createPortal } from 'react-dom';
 import s from './Modal.module.css';
 
-class ModalWindow extends Component {
+const modalRoot = document.querySelector('#modal-root');
 
+class ModalWindow extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Escape') {
+        this.props.onClose()
+      }
+    })
+  }
 
   render() {
-    return (
-      <div className={s.backdrop}>
+    return (createPortal(<div className={s.backdrop}>
         <div className={s.modal}>{this.props.children}</div>
-      </div>
+      </div>, modalRoot)
     )
   }
 }
