@@ -22,8 +22,14 @@ export default class App extends Component {
     })
   }
 
-  addTodo = () => {
+  addTodo = (title) => {
+    const todo = {
+      title,
+    }
 
+    this.setState(({todos}) => {
+      return { todos: [...todos, todo]}
+    })
   }
 
   deleteTodo = todoId => {
@@ -31,7 +37,6 @@ export default class App extends Component {
       todos: todos.filter(todo =>
         todo.id != todoId),
     }))
-    console.log(this.state.todos);
   }
 
 
@@ -47,7 +52,9 @@ export default class App extends Component {
             >Close Modal</Button>
           </ModalWindow>
         )}
-        <TodoForm />
+        <TodoForm
+          onSubmit={this.addTodo}
+        />
         <List
           onDeleteTodo={this.deleteTodo}
           initialTodos={this.state.todos}

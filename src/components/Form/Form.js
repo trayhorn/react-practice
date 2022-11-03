@@ -1,14 +1,14 @@
 import s from './Form.module.css';
 import { Formik, Form, Field } from 'formik';
 
-export default function TodoForm() {
+export default function TodoForm({onSubmit}) {
   const initialValues = {
     title: '',
   }
 
   const handleSubmit = (values, actions) => {
-    console.log(values);
     actions.resetForm();
+    this.props.onSubmit();
   }
 
   return (
