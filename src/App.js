@@ -1,69 +1,44 @@
 import { Component } from 'react';
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import ModalWindow from "./components/Modal/Modal";
-import TodoForm from './components/Form/Form';
-import List from './components/List/List';
-import initialTodos from './initialTodos.json';
 import './App.css';
+import axios from 'axios';
+
+const KEY = '29734383-6ec437d7a0c5df52cef54a0f';
+axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 
 export default class App extends Component {
 
   state = {
-    todos: initialTodos,
-    showModal: false
+    name: ''
   }
 
+  async componentDidMount() {
+    const { data } = await axios.get(`?key=${KEY}9&q=cat&image_type=photo&per_page=12`);
 
-  toggleModal = () => {
-    this.setState(prevState => {
-      return { showModal: !prevState.showModal};
-    })
+    console.log(data);
   }
 
-  addTodo = (title) => {
-    const todo = {
-      title,
-    }
-
-    this.setState(({todos}) => {
-      return { todos: [...todos, todo]}
-    })
-  }
-
-  deleteTodo = todoId => {
-    this.setState(({todos}) => ({
-      todos: todos.filter(todo =>
-        todo.id != todoId),
-    }))
-  }
-
+  handleChange = evt => {
+    this.setState({ name: evt.target.value });
+    console.log(evt.target.value);
+    console.log(this.state);
+  };
 
   render() {
     return (
       <div className='container'>
-        {this.state.showModal && (
-          <ModalWindow onClose={this.toggleModal}>
-            <h1>This is my first modal in React</h1>
-            <Button
-              variant="contained"
-              onClick={this.toggleModal}
-            >Close Modal</Button>
-          </ModalWindow>
-        )}
-        <TodoForm
-          onSubmit={this.addTodo}
-        />
-        <List
-          onDeleteTodo={this.deleteTodo}
-          initialTodos={this.state.todos}
-        />
-        <Button
-          variant="contained"
-          style={{margin: '20px'}}
-          onClick={this.toggleModal}
-        >Open modal</Button>
+        <h1 className='title'>Images</h1>
+        <form autoComplete='off'>
+          <label>
+            Name
+            <input
+              type="text"
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
+          </label>
+        </form>
       </div>
     )
   }
