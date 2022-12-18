@@ -1,34 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
+import Form from './components/Form/Form';
 
 
 export default function App() {
-  const [name, setName] = useState('');
-  
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const nameChange = event => {
-    setName(event.target.value);
+  const handleChangeUsername = e => {
+    setUsername(e.target.value);
   }
+
+  const handleChangePassword = e => {
+    setPassword(e.target.value);
+  }
+
 
   return (
     <div className='container'>
       <h1>Hooks</h1>
-      <form autoComplete='off'>
+      <form>
         <label>
-          <span>Name</span>
+          Name
           <input
-            type='text'
-            name='username'
-            onChange={nameChange}
-            value={name}
+            name="username"
+            type="text"
+            value={username}
+            onChange={handleChangeUsername}
           />
         </label>
-        <br />
         <label>
-          <span>Number</span>
-          <input type='phone' name='number'/>
+          Password
+          <input
+            name="password"
+            type="password"
+            value={password}
+            onChange={handleChangePassword}
+          />
         </label>
+        <button>Submit</button>
       </form>
     </div>
   )
