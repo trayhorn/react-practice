@@ -5,3 +5,19 @@
   margin-right: auto;
   border: 2px solid black;
 }
+
+.label {
+  padding: 20px;
+  font-size: 20px;
+  display: block;
+}
+
+.input {
+  margin-left: 10px;
+  padding: 7px 10px;
+}
+
+.button {
+  padding: 7px 12px;
+  margin-left: 20px;
+}
