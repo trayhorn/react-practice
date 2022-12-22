@@ -1,54 +1,58 @@
-import { Component } from "react";
+import { useState } from "react";
 import s from "./App.module.css";
 import Statistics from "./components/Statistics/Statistics";
 import FeedbackOptions from "./components/FeedbackOptions/FeedbackOptions";
 
-class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0
+
+const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const onButtonClick = (e) => {
+    switch (e.target.name) {
+      case 'Good':
+        setGood(good + 1);
+        break;
+      case 'Neutral':
+        setNeutral(neutral + 1);
+        break;
+      case 'Bad':
+        setBad(bad + 1);
+        break;
+      default:
+        return;
+    }
   }
 
-  onButtonClick = (state) => {
-    this.setState(prevState => ({
-      [state]: prevState[state] + 1
-    }))
-  }
+  const options = ['Good', 'Neutral', 'Bad'];
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
+  const countTotalFeedback = () => {
     return good + neutral + bad;
   }
 
-  countPositiveFeedback = () => {
-    const { good, neutral, bad } = this.state;
+  const countPositiveFeedback = () => {
     const total = good + neutral + bad;
     return Math.round(good / total * 100);
   }
 
-
-  render() {
-    const options = Object.keys(this.state);
-
-    return (
-      <div className={s.container}>
-        <h2>Please leave a feedback</h2>
-        <FeedbackOptions
-          options={options}
-          onLeaveFeedback={this.onButtonClick}
-        />
-        <h2>Statistics</h2>
-        <Statistics
-          good={this.state.good}
-          neutral={this.state.neutral}
-          bad={this.state.bad}
-          total={this.countTotalFeedback}
-          positive={this.countPositiveFeedback}
-        />
-      </div>
-    )
-  }
+  return (
+    <div className={s.container}>
+      <h2>Please leave a feedback</h2>
+      <FeedbackOptions
+        options={options}
+        onLeaveFeedback={onButtonClick}
+      />
+      <h2>Statistics</h2>
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        total={countTotalFeedback}
+        positive={countPositiveFeedback}
+      />
+    </div>
+  )
 }
 
 export default App;
