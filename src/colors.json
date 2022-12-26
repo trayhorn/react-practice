@@ -1,0 +1,8 @@
+[
+  { "label": "Yellow", "color": "rgb(240, 222, 56)" },
+  { "label": "Green", "color": "rgb(71, 192, 41)" },
+  { "label": "Pink", "color": "rgb(209, 90, 219)" },
+  { "label": "Blue", "color": "rgb(59, 183, 236)" },
+  { "label": "Orange", "color": "rgb(241, 160, 2)" },
+  { "label": "Gray", "color": "rgb(122, 144, 164)" }
+]

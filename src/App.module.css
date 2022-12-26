@@ -1,23 +1,26 @@
 .container {
-  width: 600px;
-  height: 100vh;
+  width: 250px;
+  height: 350px;
+  margin-top: 100px;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid black;
+  background-color: rgb(233, 255, 63);
+  border-radius: 20px;
 }
 
-.label {
-  padding: 20px;
-  font-size: 20px;
-  display: block;
+.degree {
+  text-align: center;
+  font-size: 45px;
 }
 
-.input {
-  margin-left: 10px;
-  padding: 7px 10px;
-}
-
-.button {
-  padding: 7px 12px;
-  margin-left: 20px;
+button {
+  margin-right: 10px;
+  width: 45px;
+  height: 45px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: none;
+  font-size: 30px;
+  margin-left: 50px;
+  cursor: pointer;
 }

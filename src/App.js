@@ -1,42 +1,38 @@
-// import { useState } from "react";
-import { Component } from "react";
+import { useState } from 'react';
+import colors from './colors.json';
 import s from "./App.module.css";
 
 
-class App extends Component {
-  state = {
-    contacts: [],
-    name: ''
+const App = () => {
+  const [value, setValue] = useState(10);
+
+  const onButtonClick = e => {
+    switch (e.target.name) {
+      case 'increment':
+        setValue(prevState => prevState + 1);
+        console.log(colors[1].color);
+        break;
+      case 'decrement':
+        setValue(prevState => prevState - 1);
+        break;
+      default: console.log('nothing')
+    }
   }
 
-  handleChange = (e) => {
-    this.setState({name: e.target.value})
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-  }
-
-  render() {
-    return (
+  return (
       <div className={s.container}>
-        <form autoComplete="off">
-          <label className={s.label}>
-            Name
-            <input
-              className={s.input}
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <button className={s.button} type="submit">Add contact</button>
-        </form>
+          <p className={s.degree}>{value}</p>
+          <div>
+              <button onClick={onButtonClick} type="button" name="increment">
+                  +
+              </button>
+              <button onClick={onButtonClick} type="button" name="decrement">
+                  -
+              </button>
+          </div>
       </div>
-    )
-  }
+  )
 }
+
 
 export default App;
