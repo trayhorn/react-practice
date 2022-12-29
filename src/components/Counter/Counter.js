@@ -1,5 +1,4 @@
 import './Counter.css';
-// import colors from '../../colors.json'
 import { useState } from 'react';
 
 
