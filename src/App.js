@@ -1,37 +1,46 @@
+import './App.css';
 import { useState } from 'react';
-import colors from './colors.json';
-import s from "./App.module.css";
+import { Button } from '@mui/material';
+import Counter from './components/Counter/Counter';
+import axios from 'axios';
 
 
 const App = () => {
-  const [value, setValue] = useState(10);
+  const [counterClick, setCounterClick] = useState(false);
 
-  const onButtonClick = e => {
-    switch (e.target.name) {
-      case 'increment':
-        setValue(prevState => prevState + 1);
-        console.log(colors[1].color);
-        break;
-      case 'decrement':
-        setValue(prevState => prevState - 1);
-        break;
-      default: console.log('nothing')
+  const onCounterButtonClick = () => {
+    if (!counterClick) {
+      setCounterClick(true);
+    } else {
+      setCounterClick(false);
     }
   }
 
+   async function handleSubmit(e) {
+    e.preventDefault();
+     const response = await axios.get(
+       'https://dog.ceo/api/breeds/image/random',
+     );
+     console.log(response.data.message)
+  }
+ 
   return (
-      <div className={s.container}>
-          <p className={s.degree}>{value}</p>
-          <div>
-              <button onClick={onButtonClick} type="button" name="increment">
-                  +
-              </button>
-              <button onClick={onButtonClick} type="button" name="decrement">
-                  -
-              </button>
-          </div>
-      </div>
-  )
+    <div>
+      <Button
+        onClick={onCounterButtonClick}
+        sx={{ margin: '20px' }}
+        variant="contained"
+      >
+        Contained
+      </Button>
+      <hr />
+      {counterClick && <Counter />}
+      <form autoComplete="off" onSubmit={handleSubmit}>
+        <input name="search" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  );
 }
 
 
