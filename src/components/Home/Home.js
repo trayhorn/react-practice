@@ -15,6 +15,11 @@ export const Home = () => {
           Search
         </Button>
       </NavLink>
+      <NavLink className={s.link} to="/react-hw-05-films">
+        <Button sx={{ margin: '20px' }} variant="contained">
+          Back
+        </Button>
+      </NavLink>
       <hr />
       <Outlet />
     </header>
