@@ -9,7 +9,12 @@ export const Home = () => {
   console.log(location.pathname);
   return (
     <header className="homeContainer">
-      <NavLink className={s.link} to={location.pathname === '/' ? 'counter' : '/'}>
+      <NavLink
+        className={s.link}
+        to={
+          location.pathname.includes('counter') ? '/' : 'counter'
+        }
+      >
         <Button sx={{ margin: '20px' }} variant="contained">
           Counter
         </Button>
