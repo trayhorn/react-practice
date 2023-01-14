@@ -1,11 +1,15 @@
 import s from './Home.module.css';
 import { Button } from '@mui/material';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+
+
 
 export const Home = () => {
+  const location = useLocation();
+  console.log(location.pathname);
   return (
     <header className="homeContainer">
-      <NavLink className={s.link} to="counter">
+      <NavLink className={s.link} to={location.pathname === '/' ? 'counter' : '/'}>
         <Button sx={{ margin: '20px' }} variant="contained">
           Counter
         </Button>
