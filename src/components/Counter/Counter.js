@@ -1,28 +1,17 @@
 import './Counter.css';
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement } from "../../redux/store";
 
 
 export default function Counter() {
-  const [value, setValue] = useState(10);
-
-  const onButtonClick = e => {
-    switch (e.target.name) {
-      case 'increment':
-        setValue(prevState => prevState + 1);
-        break;
-      case 'decrement':
-        setValue(prevState => prevState - 1);
-        break;
-      default:
-        break;
-    }
-  };
+  const dispatch = useDispatch();
+  const count = useSelector(state => state.myCounter)
 
   return (
     <div className="Counter">
-      <p className="degree">{value}</p>
+      <p className="degree">{count}</p>
       <button
-        onClick={onButtonClick}
+        onClick={() => dispatch(increment(1))}
         type="button"
         name="increment"
         className="counterButton"
@@ -30,7 +19,7 @@ export default function Counter() {
         +
       </button>
       <button
-        onClick={onButtonClick}
+        onClick={() => dispatch(decrement(1))}
         type="button"
         className="counterButton"
         name="decrement"

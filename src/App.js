@@ -6,14 +6,12 @@ import Search from './components/Search/Search';
 
 const App = () => {
   return (
-    <div>
-      <Routes>
-        <Route path="/react-hw-05-films" element={<Home />}>
-          <Route path="counter" element={<Counter />} />
-          <Route path="search" element={<Search />} />
-        </Route>
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />}>
+        <Route path="counter" element={<Counter />} />
+        <Route path="search" element={<Search />} />
+      </Route>
+    </Routes>
   );
 };
 
