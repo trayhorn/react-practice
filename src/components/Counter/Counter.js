@@ -11,7 +11,7 @@ export default function Counter() {
     <div className="Counter">
       <p className="degree">{count}</p>
       <button
-        onClick={() => dispatch(increment(1))}
+        onClick={() => dispatch(increment(10))}
         type="button"
         name="increment"
         className="counterButton"
@@ -19,7 +19,7 @@ export default function Counter() {
         +
       </button>
       <button
-        onClick={() => dispatch(decrement(1))}
+        onClick={() => dispatch(decrement(10))}
         type="button"
         className="counterButton"
         name="decrement"
