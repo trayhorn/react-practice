@@ -1,24 +1,24 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-import '../../App.css';
+import "./styles.css";
 
 // import required modules
-import { Pagination, Navigation } from 'swiper';
+import { Pagination, Navigation } from "swiper";
 
-export default function Slider() {
+export default function App() {
   return (
-    <main className='SliderApp'>
+    <>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}
-        slidesPerGroup={1}
+        slidesPerGroup={3}
         loop={true}
         loopFillGroupWithBlank={true}
         pagination={{
@@ -38,6 +38,6 @@ export default function Slider() {
         <SwiperSlide>Slide 8</SwiperSlide>
         <SwiperSlide>Slide 9</SwiperSlide>
       </Swiper>
-    </main>
+    </>
   );
 }
