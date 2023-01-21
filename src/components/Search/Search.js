@@ -2,20 +2,26 @@ import { TextField, IconButton } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { useState } from 'react';
 import axios from 'axios';
+import './Search.css';
 
-export default function Sarch() {
+axios.defaults.baseURL = 'https://dog.ceo/api';
+
+
+export default function Search() {
   const [image, setImage] = useState('');
 
-  async function handleSubmit(e) {
+  const handleSubmit = async e => {
     e.preventDefault();
-    const response = await axios.get(
-      'https://dog.ceo/api/breeds/image/random',
-    );
-    setImage(response.data.message);
+    try {
+      const response = await axios.get('/breeds/image/random');
+      setImage(response.data.message);
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 
   return (
-    <>
+    <main>
       <form autoComplete="off" onSubmit={handleSubmit}>
         <TextField
           id="outlined-basic"
@@ -27,7 +33,9 @@ export default function Sarch() {
           <PetsIcon />
         </IconButton>
       </form>
-      <img className="dogImage" src={image} alt="" />
-    </>
+      <div className='imageWrapper'>
+        <img className="dogImage" src={image} alt="" />
+      </div>
+    </main>
   );
 }

@@ -1,0 +1,10 @@
+.imageWrapper {
+  margin-top: 50px;
+  width: fit-content;
+}
+
+.dogImage {
+  display: block;
+  width: 300px;
+  border-radius: 15px;
+}
