@@ -1,23 +1,22 @@
-import { TextField, IconButton } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
-import { useState } from 'react';
-import axios from 'axios';
+import { TextField, IconButton } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import './Search.css';
+import { fetchImage } from 'redux/operations';
+import { getImage } from 'redux/selectors';
 
-axios.defaults.baseURL = 'https://dog.ceo/api';
+
 
 
 export default function Search() {
-  const [image, setImage] = useState('');
+  const dispatch = useDispatch();
+  const imageURL = useSelector(state => state.search.url);
 
-  const handleSubmit = async e => {
+  const { url, isLoading, error } = useSelector(getImage);
+
+  const handleSubmit = e => {
     e.preventDefault();
-    try {
-      const response = await axios.get('/breeds/image/random');
-      setImage(response.data.message);
-    } catch (error) {
-      console.log(error.message)
-    }
+    dispatch(fetchImage());
   }
 
   return (
@@ -33,9 +32,13 @@ export default function Search() {
           <PetsIcon />
         </IconButton>
       </form>
-      <div className='imageWrapper'>
-        <img className="dogImage" src={image} alt="" />
-      </div>
+      {isLoading && <p>Loading image...</p>}
+      {error && <p>{error}</p>}
+      {url !== '' && (
+        <div className="imageWrapper">
+          <img className="dogImage" src={imageURL} alt="" />
+        </div>
+      )}
     </main>
   );
 }
