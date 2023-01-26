@@ -1,3 +1,9 @@
+.searchForm {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .imageWrapper {
   margin-top: 50px;
   width: fit-content;

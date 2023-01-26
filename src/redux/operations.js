@@ -4,13 +4,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = 'https://dog.ceo/api';
 
-export const fetchImage = createAsyncThunk(
-  'search/fetchImage',
-  async () => {
-    const { data } = await axios.get('/breeds/image/random');
-    return data.message;
-  },
-);
+export const fetchImage = createAsyncThunk('search/fetchImage', async breed => {
+  const { data } = await axios.get(`/breed/${breed}/images/random`);
+  return data.message;
+});
 
 // export const fetchDogImage = () => async dispatch => {
 //   try {

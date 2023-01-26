@@ -1,6 +1,6 @@
 import './Counter.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { increment, decrement } from "../../redux/store";
+import { increment, decrement } from "../../redux/CounterSice";
 
 
 export default function Counter() {
