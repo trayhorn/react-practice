@@ -4,6 +4,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = 'https://dog.ceo/api';
 
+// !!! Example of async fetching with REDUX !!!
+
 export const fetchImage = createAsyncThunk('search/fetchImage', async breed => {
   const { data } = await axios.get(`/breed/${breed}/images/random`);
   return data.message;

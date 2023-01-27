@@ -1,16 +1,8 @@
 import PetsIcon from '@mui/icons-material/Pets';
-import {
-  InputLabel,
-  IconButton,
-  MenuItem,
-  FormControl,
-  Select,
-} from '@mui/material';
-import { nanoid } from '@reduxjs/toolkit';
+import { TextField, Autocomplete, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useGetDogImageByBreedQuery } from 'redux/dogApi';
 import './Search.css';
-
 
 
 export default function Search() {
@@ -26,17 +18,12 @@ export default function Search() {
       .then(response =>
         setAllBreeds(
           Object.entries(response.message).map(([name, value]) => ({
-            name,
+            name: name.replace(/^\w/, c => c.toUpperCase()),
             value,
           })),
         ),
       );
-  }, [allBreeds])
-
-
-  const handleChange = e => {
-    setBreed(e.target.value);
-  }
+  }, [])
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -44,24 +31,39 @@ export default function Search() {
   }
 
   return (
-    <main>
+    <main className="searchContainer">
       <form className="searchForm" autoComplete="off" onSubmit={handleSubmit}>
-        <select
-          value={breed}
-          onChange={handleChange}
-          style={{ padding: '5px', fontSize: '16px', borderRadius: '5px', width: 180 }}
+        <Autocomplete
+          value={breed.name}
+          onChange={(_, newValue) => {
+            setBreed(newValue.name);
+          }}
+          getOptionLabel={breed => breed.name}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          disablePortal
+          id="combo-box-demo"
+          options={allBreeds}
+          sx={{ width: 250 }}
+          renderInput={params => {
+            return <TextField {...params} label="Breed" />;
+          }}
+        />
+        <IconButton
+          sx={{ marginLeft: '15px' }}
+          aria-label="delete"
+          type="submit"
+          disabled={isFetching}
         >
-          {allBreeds.map(({ name }) => (
-            <option key={nanoid()} value={name}>{name}</option>
-          ))}
-        </select>
-        <IconButton aria-label="delete" type="submit" disabled={isFetching}>
           <PetsIcon />
         </IconButton>
       </form>
       {data && (
         <div className="imageWrapper">
-          <img className="dogImage" src={data.message} alt="" />
+          <img
+            className="dogImage"
+            src={data.message}
+            alt="the cutest dog ever"
+          />
         </div>
       )}
     </main>
