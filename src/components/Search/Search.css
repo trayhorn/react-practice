@@ -1,22 +1,35 @@
 .searchContainer {
-  width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  background-color: rgb(255, 246, 147);
+  padding: 50px;
 }
 
 .searchForm {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
+}
+
+.galleryBox {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .imageWrapper {
   margin-top: 50px;
-  width: fit-content;
+  /* padding: 15px; */
+  padding-right: 50px;
+}
+.imageWrapper:nth-child(4n) {
+  padding-right: 0;
 }
 
 .dogImage {
   display: block;
   width: 300px;
+  height: 225px;
+  object-fit: cover;
   border-radius: 15px;
+  border: 2px solid black;
+
 }

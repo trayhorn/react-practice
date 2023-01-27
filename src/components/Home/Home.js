@@ -3,7 +3,6 @@ import { Button } from '@mui/material';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
 
-
 export const Home = () => {
   const location = useLocation();
   return (

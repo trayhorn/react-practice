@@ -2,13 +2,14 @@ import PetsIcon from '@mui/icons-material/Pets';
 import { TextField, Autocomplete, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useGetDogImageByBreedQuery } from 'redux/dogApi';
+import Notiflix from 'notiflix';
 import './Search.css';
 
 
 export default function Search() {
   const [breed, setBreed] = useState('');
   const [allBreeds, setAllBreeds] = useState([])
-  const { data, isFetching, refetch } = useGetDogImageByBreedQuery(breed, {
+  const { data, isFetching } = useGetDogImageByBreedQuery(breed, {
     skip: breed === '',
   });
 
@@ -25,14 +26,17 @@ export default function Search() {
       );
   }, [])
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    refetch();
+  const notification = () => {
+    Notiflix.Notify.info('Sorry, this button is doing nothing now');
   }
+
+  // const handleSubmit = e => {
+  //   e.preventDefault();
+  // }
 
   return (
     <main className="searchContainer">
-      <form className="searchForm" autoComplete="off" onSubmit={handleSubmit}>
+      <form className="searchForm" autoComplete="off">
         <Autocomplete
           value={breed.name}
           onChange={(_, newValue) => {
@@ -51,21 +55,24 @@ export default function Search() {
         <IconButton
           sx={{ marginLeft: '15px' }}
           aria-label="delete"
-          type="submit"
-          disabled={isFetching}
+          type="button"
+          onClick={() => notification()}
         >
           <PetsIcon />
         </IconButton>
       </form>
-      {data && (
-        <div className="imageWrapper">
-          <img
-            className="dogImage"
-            src={data.message}
-            alt="the cutest dog ever"
-          />
-        </div>
-      )}
+      <div className="galleryBox">
+        {data &&
+          data.message.map(imageUrl => (
+            <div className="imageWrapper">
+              <img
+                className="dogImage"
+                src={imageUrl}
+                alt="the cutest dog ever"
+              />
+            </div>
+          ))}
+      </div>
     </main>
   );
 }
