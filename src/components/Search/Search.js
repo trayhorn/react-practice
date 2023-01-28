@@ -1,15 +1,16 @@
 import PetsIcon from '@mui/icons-material/Pets';
-import { TextField, Autocomplete, IconButton } from '@mui/material';
+// import { TextField, Autocomplete, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useGetDogImageByBreedQuery } from 'redux/dogApi';
 import Notiflix from 'notiflix';
 import './Search.css';
-
+import { nanoid } from '@reduxjs/toolkit';
 
 export default function Search() {
   const [breed, setBreed] = useState('');
   const [allBreeds, setAllBreeds] = useState([])
-  const { data, isFetching } = useGetDogImageByBreedQuery(breed, {
+  const { data } = useGetDogImageByBreedQuery(breed.toLocaleLowerCase().split(' '), {
     skip: breed === '',
   });
 
@@ -26,18 +27,30 @@ export default function Search() {
       );
   }, [])
 
+
   const notification = () => {
     Notiflix.Notify.info('Sorry, this button is doing nothing now');
   }
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  // }
-
   return (
     <main className="searchContainer">
       <form className="searchForm" autoComplete="off">
-        <Autocomplete
+        <select value={breed} onChange={(e) => setBreed(e.target.value)}>
+          {allBreeds.map(breed => (
+            <>
+              {breed.value.length === 0 ? (
+                <option key={nanoid()}>{breed.name}</option>
+              ) : (
+                breed.value.map(value => (
+                  <option key={nanoid()}>
+                    {breed.name + ' ' + value[0].toUpperCase() + value.slice(1)}
+                  </option>
+                ))
+              )}
+            </>
+          ))}
+        </select>
+        {/* <Autocomplete
           value={breed.name}
           onChange={(_, newValue) => {
             setBreed(newValue.name);
@@ -51,7 +64,7 @@ export default function Search() {
           renderInput={params => {
             return <TextField {...params} label="Breed" />;
           }}
-        />
+        /> */}
         <IconButton
           sx={{ marginLeft: '15px' }}
           aria-label="delete"
@@ -64,7 +77,7 @@ export default function Search() {
       <div className="galleryBox">
         {data &&
           data.message.map(imageUrl => (
-            <div className="imageWrapper">
+            <div key={nanoid()} className="imageWrapper">
               <img
                 className="dogImage"
                 src={imageUrl}
