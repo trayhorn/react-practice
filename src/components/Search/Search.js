@@ -1,11 +1,12 @@
-import PetsIcon from '@mui/icons-material/Pets';
 // import { TextField, Autocomplete, IconButton } from '@mui/material';
+import PetsIcon from '@mui/icons-material/Pets';
 import { IconButton } from '@mui/material';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetDogImageByBreedQuery } from 'redux/dogApi';
+import { nanoid } from '@reduxjs/toolkit';
 import Notiflix from 'notiflix';
 import './Search.css';
-import { nanoid } from '@reduxjs/toolkit';
+
 
 export default function Search() {
   const [breed, setBreed] = useState('');
@@ -13,6 +14,7 @@ export default function Search() {
   const { data } = useGetDogImageByBreedQuery(breed.toLocaleLowerCase().split(' '), {
     skip: breed === '',
   });
+
 
   useEffect(() => {
     fetch('https://dog.ceo/api/breeds/list/all')
@@ -35,11 +37,11 @@ export default function Search() {
   return (
     <main className="searchContainer">
       <form className="searchForm" autoComplete="off">
-        <select value={breed} onChange={(e) => setBreed(e.target.value)}>
+        <select className='select' value={breed} onChange={(e) => setBreed(e.target.value)}>
           {allBreeds.map(breed => (
-            <>
+            <React.Fragment key={nanoid()}>
               {breed.value.length === 0 ? (
-                <option key={nanoid()}>{breed.name}</option>
+                <option>{breed.name}</option>
               ) : (
                 breed.value.map(value => (
                   <option key={nanoid()}>
@@ -47,7 +49,7 @@ export default function Search() {
                   </option>
                 ))
               )}
-            </>
+            </React.Fragment>
           ))}
         </select>
         {/* <Autocomplete
