@@ -12,3 +12,15 @@ export const dogApi = createApi({
 });
 
 export const { useGetDogImageByBreedQuery } = dogApi;
+
+export const breedListApi = createApi({
+  reducerPath: 'breedListApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://dog.ceo/api' }),
+  endpoints: builder => ({
+    getBreedList: builder.query({
+      query: () => '/breeds/list/all',
+    }),
+  }),
+});
+
+export const { useGetBreedListQuery } = breedListApi;

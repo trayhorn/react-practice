@@ -1,9 +1,9 @@
 // import { TextField, Autocomplete, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useGetDogImageByBreedQuery, useGetBreedListQuery } from 'redux/dogApi';
+import { nanoid } from '@reduxjs/toolkit';
 import PetsIcon from '@mui/icons-material/Pets';
 import { IconButton } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useGetDogImageByBreedQuery } from 'redux/dogApi';
-import { nanoid } from '@reduxjs/toolkit';
 import Notiflix from 'notiflix';
 import './Search.css';
 
@@ -15,19 +15,18 @@ export default function Search() {
     skip: breed === '',
   });
 
+  const { data: breeds } = useGetBreedListQuery();
 
   useEffect(() => {
-    fetch('https://dog.ceo/api/breeds/list/all')
-      .then(r => r.json())
-      .then(response =>
-        setAllBreeds(
-          Object.entries(response.message).map(([name, value]) => ({
-            name: name.replace(/^\w/, c => c.toUpperCase()),
-            value,
-          })),
-        ),
+    if (breeds) {
+      setAllBreeds(
+        Object.entries(breeds.message).map(([name, value]) => ({
+          name: name.replace(/^\w/, c => c.toUpperCase()),
+          value,
+        })),
       );
-  }, [])
+    }
+  }, [breeds])
 
 
   const notification = () => {
