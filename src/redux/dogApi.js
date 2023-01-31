@@ -6,21 +6,14 @@ export const dogApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dog.ceo/api' }),
   endpoints: builder => ({
     getDogImageByBreed: builder.query({
-      query: (breed) => `/breed/${breed.join('/')}/images`,
+      query: (breed, page) =>
+        `/breed/${breed.join('/')}/images?page=${page}&perPage=10`,
     }),
-  }),
-});
-
-export const { useGetDogImageByBreedQuery } = dogApi;
-
-export const breedListApi = createApi({
-  reducerPath: 'breedListApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://dog.ceo/api' }),
-  endpoints: builder => ({
     getBreedList: builder.query({
       query: () => '/breeds/list/all',
     }),
   }),
 });
 
-export const { useGetBreedListQuery } = breedListApi;
+export const { useGetBreedListQuery, useGetDogImageByBreedQuery } = dogApi;
+
