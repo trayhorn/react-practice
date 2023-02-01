@@ -6,8 +6,8 @@ export const dogApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dog.ceo/api' }),
   endpoints: builder => ({
     getDogImageByBreed: builder.query({
-      query: (breed, page) =>
-        `/breed/${breed.join('/')}/images?page=${page}&perPage=10`,
+      query: (breed) =>
+        `/breed/${breed.join('/')}/images`,
     }),
     getBreedList: builder.query({
       query: () => '/breeds/list/all',

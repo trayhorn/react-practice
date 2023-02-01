@@ -32,6 +32,14 @@ export const Home = () => {
             Slider
           </Button>
         </NavLink>
+        <NavLink
+          className={s.link}
+          to={location.pathname.includes('scroll') ? '/' : 'scroll'}
+        >
+          <Button sx={{ margin: '20px' }} variant="contained">
+            Scroll
+          </Button>
+        </NavLink>
         <hr />
       </header>
       <Outlet />

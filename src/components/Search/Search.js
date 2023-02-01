@@ -1,7 +1,8 @@
 // import { TextField, Autocomplete, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useGetDogImageByBreedQuery, useGetBreedListQuery } from 'redux/dogApi';
-import { IconButton, Button } from '@mui/material';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { IconButton } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { nanoid } from '@reduxjs/toolkit';
 import Notiflix from 'notiflix';
@@ -12,6 +13,7 @@ export default function Search() {
   const [allBreeds, setAllBreeds] = useState([])
   const [breed, setBreed] = useState('');
   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [currentPageData, setCurrentPageData] = useState([]);
   const { data: breeds } = useGetBreedListQuery();
   const { data } = useGetDogImageByBreedQuery(
@@ -21,16 +23,6 @@ export default function Search() {
     },
   );
 
-  const handleSetCurrentPage = images => {
-    const startIndex = (page - 1) * 24;
-    const endIndex = startIndex + 24;
-    page === 1
-      ? setCurrentPageData(images.slice(startIndex, endIndex))
-      : setCurrentPageData(prev => [
-          ...prev,
-          ...data.message.slice(startIndex, endIndex),
-        ]);
-  };
 
   useEffect(() => {
     if (breeds) {
@@ -42,17 +34,34 @@ export default function Search() {
       );
     }
     if (data) {
-      handleSetCurrentPage(data.message);
+      setPage(prev => prev + 1);
+      setCurrentPageData(data.message.slice(0, 24));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [breeds, data, page])
+  }, [breeds, data])
 
   
 
+  const fetchMoreData = () => {
+    if (data.message.length <= currentPageData.length) {
+      setHasMore(false);
+      return;
+    }
+
+    setPage(prev => prev + 1);
+    const startIndex = (page - 1) * 24;
+    const endIndex = startIndex + 24;
+    const finalIndex =
+      endIndex > data.message.length ? data.message.length : endIndex;
+    setCurrentPageData(prev => [
+      ...prev,
+      ...data.message.slice(startIndex, finalIndex),
+    ]);
+  };
 
   const handleSelectChange = e => {
     setBreed(e.target.value);
-    if (page !== 1) { setPage(1) };
+    setHasMore(true);
+    setPage(1);
   }
 
   const notification = () => {
@@ -86,25 +95,30 @@ export default function Search() {
           <PetsIcon />
         </IconButton>
       </form>
-      <div className="galleryBox">
-        {currentPageData.map(imageUrl => (
-            <div key={nanoid()} className="imageWrapper">
-              <img
-                className="dogImage"
-                src={imageUrl}
-                alt="the cutest dog ever"
-              />
-            </div>
-          ))}
-      </div>
-      {currentPageData.length > 0 && data.message.length > 24 && (
-        <Button
-          sx={{ marginTop: '20px', marginLeft: '600px' }}
-          variant="contained"
-          onClick={() => setPage(prev => prev + 1)}
+      {data && (
+        <InfiniteScroll
+          dataLength={currentPageData.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
         >
-          Load more
-        </Button>
+          <div className="galleryBox">
+            {currentPageData.map(imageUrl => (
+              <div key={nanoid()} className="imageWrapper">
+                <img
+                  className="dogImage"
+                  src={imageUrl}
+                  alt="the cutest dog ever"
+                />
+              </div>
+            ))}
+          </div>
+        </InfiniteScroll>
       )}
     </main>
   );
