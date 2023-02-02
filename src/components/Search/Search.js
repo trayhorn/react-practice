@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useGetDogImageByBreedQuery, useGetBreedListQuery } from 'redux/dogApi';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { IconButton } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
+import { IconButton } from '@mui/material';
 import { nanoid } from '@reduxjs/toolkit';
 import Notiflix from 'notiflix';
 import './Search.css';
@@ -39,15 +39,13 @@ export default function Search() {
     }
   }, [breeds, data])
 
-  
 
   const fetchMoreData = () => {
     if (data.message.length <= currentPageData.length) {
       setHasMore(false);
+      setPage(1);
       return;
     }
-
-    setPage(prev => prev + 1);
     const startIndex = (page - 1) * 24;
     const endIndex = startIndex + 24;
     const finalIndex =
@@ -56,12 +54,12 @@ export default function Search() {
       ...prev,
       ...data.message.slice(startIndex, finalIndex),
     ]);
+    setPage(prev => prev + 1);
   };
 
   const handleSelectChange = e => {
     setBreed(e.target.value);
     setHasMore(true);
-    setPage(1);
   }
 
   const notification = () => {
