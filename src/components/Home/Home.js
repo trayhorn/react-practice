@@ -10,7 +10,9 @@ import './Home.css';
 
 export const Home = () => {
   const location = useLocation();
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState(() => {
+    return JSON.parse(window.localStorage.getItem('theme')) ?? 'light';
+  });
 
   useEffect(() => {
     window.localStorage.setItem('theme', JSON.stringify(mode));
@@ -25,7 +27,7 @@ export const Home = () => {
 
   const theme = createTheme({
     palette: {
-      mode: JSON.parse(window.localStorage.getItem('theme')) ?? 'light'
+      mode,
     },
   });
 
@@ -63,7 +65,7 @@ export const Home = () => {
           label="Dark theme"
         />
       </header>
-      <hr />
+      <hr style={{margin: 0}} />
       <Outlet />
     </ThemeProvider>
   );

@@ -1,25 +1,31 @@
-// import { fetchingInProgress, fetchingSuccess, fetchingError } from './store';
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = 'https://dog.ceo/api';
 
-// !!! Example of async fetching with REDUX !!!
-
-export const fetchImage = createAsyncThunk('search/fetchImage', async breed => {
-  const { data } = await axios.get(`/breed/${breed}/images/random`);
-  return data.message;
+export const fetchImages = createAsyncThunk('search/fetchImages', async breed => {
+  try {
+    const { data } = await axios.get(`/breed/${breed.join('/')}/images`);
+    return data.message;
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
-// export const fetchDogImage = () => async dispatch => {
-//   try {
-//     dispatch(fetchingInProgress());
-//     const { data } = await axios.get('/breeds/image/random');
-//     dispatch(fetchingSuccess(data.message));
-//   } catch (error) {
-//     console.log(error.message);
-//     dispatch(fetchingError(error));
-//   }
-// };
+export const fetchAllBreeds = createAsyncThunk('search/fetchAllBreeds', async () => {
+  try {
+    const { data } = await axios.get('/breeds/list/all');
+    const structuredBreeds = Object.entries(data.message).map(
+      ([name, value]) => ({
+        name: name.replace(/^\w/, c => c.toUpperCase()),
+        value,
+      }),
+    );
+    return structuredBreeds;
+  } catch (error) {
+    console.log(error.message);
+  }
+})
+
 
 
