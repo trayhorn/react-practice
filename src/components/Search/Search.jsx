@@ -13,7 +13,9 @@ export default function Search() {
   const dogImages = useSelector(state => state.search.images);
   const [breed, setBreed] = useState('');
   const [page, setPage] = useState(1);
-  const [currentPageData, setCurrentPageData] = useState([]);
+  const [currentPageData, setCurrentPageData] = useState(
+    dogImages.slice(0, 24) ?? []
+  );
 
   useEffect(() => {
     dispatch(fetchAllBreeds());
@@ -23,26 +25,19 @@ export default function Search() {
   }, [dispatch, breed]);
 
 
-  // const fetchMoreData = () => {
-  //   if (data.message.length <= currentPageData.length) {
-  //     setHasMore(false);
-  //     setPage(1);
-  //     return;
-  //   }
-  //   const startIndex = (page - 1) * 24;
-  //   const endIndex = startIndex + 24;
-  //   const finalIndex =
-  //     endIndex > data.message.length ? data.message.length : endIndex;
-  //   setCurrentPageData(prev => [
-  //     ...prev,
-  //     ...data.message.slice(startIndex, finalIndex),
-  //   ]);
-  //   setPage(prev => prev + 1);
-  // };
-
   const handleSelectChange = e => {
     setBreed(e.target.value);
-    // setHasMore(true);
+    setPage(1);
+  }
+
+  const onButtonClick = () => {
+    setPage(prev => prev + 1);
+    // const startIndex = (page - 1) * 24;
+    // const endIndex = startIndex + 24;
+    // setCurrentPageData(prev => [
+    //   ...prev,
+    //   ...dogImages.slice(startIndex, endIndex),
+    // ]);
   }
 
   const notification = () => {
@@ -58,9 +53,7 @@ export default function Search() {
         breed={breed}
       />
       {dogImages.length > 0 && (
-        <SearchGallery
-          dogImages={dogImages}
-        />
+        <SearchGallery dogImages={currentPageData} changePage={onButtonClick} />
       )}
     </main>
   );
