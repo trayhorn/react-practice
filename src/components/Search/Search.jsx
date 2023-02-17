@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
-import SearchGallery from './SearchGallery';
-import SearchForm from './SearchForm';
 import Notiflix from 'notiflix';
-import './Search.css';
+import { Button } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { fetchAllBreeds, fetchImages } from 'redux/operations';
 import { useDispatch, useSelector } from 'react-redux';
+import SearchGallery from './SearchGallery';
+import SearchForm from './SearchForm';
+import './Search.css';
 
 
 export default function Search() {
@@ -13,9 +14,8 @@ export default function Search() {
   const dogImages = useSelector(state => state.search.images);
   const [breed, setBreed] = useState('');
   const [page, setPage] = useState(1);
-  const [currentPageData, setCurrentPageData] = useState(
-    dogImages.slice(0, 24) ?? []
-  );
+  const [currentPageData, setCurrentPageData] = useState([]);
+
 
   useEffect(() => {
     dispatch(fetchAllBreeds());
@@ -23,6 +23,12 @@ export default function Search() {
       dispatch(fetchImages(breed.toLowerCase().split(' ')));
     }
   }, [dispatch, breed]);
+
+  useEffect(() => {
+    if (dogImages.length > 0) {
+      setCurrentPageData(dogImages.slice(0, 24));
+    }
+  }, [dogImages]);
 
 
   const handleSelectChange = e => {
@@ -32,12 +38,12 @@ export default function Search() {
 
   const onButtonClick = () => {
     setPage(prev => prev + 1);
-    // const startIndex = (page - 1) * 24;
-    // const endIndex = startIndex + 24;
-    // setCurrentPageData(prev => [
-    //   ...prev,
-    //   ...dogImages.slice(startIndex, endIndex),
-    // ]);
+    const startIndex = (page - 1) * 24;
+    const endIndex = startIndex + 24;
+    setCurrentPageData(prev => [
+      ...prev,
+      ...dogImages.slice(startIndex, endIndex),
+    ]);
   }
 
   const notification = () => {
@@ -53,7 +59,20 @@ export default function Search() {
         breed={breed}
       />
       {dogImages.length > 0 && (
-        <SearchGallery dogImages={currentPageData} changePage={onButtonClick} />
+        <>
+          <SearchGallery dogImages={currentPageData} />
+          {currentPageData.length !== dogImages.length && (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                sx={{ marginTop: '30px' }}
+                onClick={onButtonClick}
+              >
+                Load more
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </main>
   );

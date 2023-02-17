@@ -1,17 +1,12 @@
 .searchContainer {
   padding: 50px;
+  box-sizing: content-box;
 }
 
 .searchForm {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.galleryBox {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
 }
 
 .select {
@@ -34,17 +29,21 @@
 }
 
 .imageWrapper {
-  margin-top: 50px;
-  /* padding: 15px; */
-  padding-right: 50px;
+  padding: 30px;
+  width: calc((100% - 240px) / 4);
 }
 .imageWrapper:nth-child(4n) {
   padding-right: 0;
 }
 
+.galleryBox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .dogImage {
   display: block;
-  width: 300px;
+  width: 100%;
   height: 225px;
   object-fit: cover;
   border-radius: 15px;
